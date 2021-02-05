@@ -16,7 +16,7 @@ int main(void)
     switch (*charPtr)
     {
     case '2':
-      printIntruction(f, "MOV");
+      printIntruction(f, "mov");
       break;
     default:
       break;
