@@ -4,7 +4,7 @@ int main(void)
 {
   FILE *f;
 
-  char instruction[20];    // Vetor que vai armazenar a tradução -> EX: mov r0, #3
+  char instruction[10];    // Vetor que vai armazenar a tradução -> EX: mov r0, #3
 
   char string_in[4];
 
