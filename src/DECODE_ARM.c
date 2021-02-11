@@ -605,3 +605,67 @@ void printMem(FILE *f,  char* instruction){
 	fclose(entrada);
 	return *conteudo;
 }*/
+
+void instructionDecoder(char* opcode){
+
+	FILE* saida;
+	char* ptr;
+	long int intInstruction;
+	char instruction[30];
+	char buffer[4];
+	int aux;
+    char opcode[4];
+	scanf("%[^\n]", opcode);
+	printMem(saida, opcode); //escreve no arquivo o numero hexa
+	intInstruction = strtol(opcode, &ptr, 16); //string to int
+	switch (intInstruction >> 12 & 0xF){
+	case 3:
+		if((intInstruction >> 11) & 0x1) {
+			strcpy(instruction, "sub");
+		}
+		else {
+			strcpy(instruction, "add");
+		}
+		strcat(instruction, " r");
+		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
+		sprintf(buffer, "%d", aux);  //int to int
+		strcat(instruction, buffer); 
+		strcat(instruction, ", #");
+		aux = (intInstruction & 0xFF); //imediato
+		sprintf(buffer, "%d", aux);
+		strcat(instruction, buffer);
+        printIntruction(saida, instruction); //escreve no arquivo
+		break;
+	
+	default:
+		break;
+	}
+	printf("%s\n", instruction);
+	//printf("%x\n", aux);
+	//sprintf(buffer, "%d", aux);
+	//printf("%s", buffer);
+
+}
+
+/*char*  itoa ( int value, char * str ) {
+    char temp;
+    int i =0;
+    while (value > 0) {
+        int digito = value % 10;
+
+        str[i] = digito + '0';
+        value /= 10;
+        i++;
+    }
+   i = 0;
+   int j = strlen(str) - 1;
+
+   while (i < j) {
+      temp = str[i];
+      str[i] = str[j];
+      str[j] = temp;
+      i++;
+      j--;
+   }
+    return str;
+}*/
