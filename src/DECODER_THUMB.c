@@ -606,24 +606,40 @@ void printMem(FILE *f,  char* instruction){
 	return *conteudo;
 }*/
 
-void instructionDecoder(char* opcode){
+void instructionDecoder(char* opcode, char* instruction){
 
 	FILE* saida;
 	char* ptr;
 	long int intInstruction;
-	char instruction[30];
 	char buffer[4];
 	int aux;
 	scanf("%[^\n]", opcode);
 	printMem(saida, opcode); //escreve no arquivo o numero hexa
 	intInstruction = strtol(opcode, &ptr, 16); //string to int
 	switch (intInstruction >> 12 & 0xF){
-	case 3:
+	case 0x2:
 		if((intInstruction >> 11) & 0x1) {
-			strcpy(instruction, "sub");
+			strcpy(instruction, "CMP");
 		}
 		else {
-			strcpy(instruction, "add");
+			strcpy(instruction, "MOV");
+		}
+		strcat(instruction, " r");
+		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
+		sprintf(buffer, "%d", aux);  //int to int
+		strcat(instruction, buffer); 
+		strcat(instruction, ", #");
+		aux = (intInstruction & 0xFF); //imediato
+		sprintf(buffer, "%d", aux);
+		strcat(instruction, buffer);
+        printIntruction(saida, instruction); //escreve no arquivo
+		break;
+	case 0x3:
+		if((intInstruction >> 11) & 0x1) {
+			strcpy(instruction, "SUB");
+		}
+		else {
+			strcpy(instruction, "ADD");
 		}
 		strcat(instruction, " r");
 		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
@@ -641,7 +657,7 @@ void instructionDecoder(char* opcode){
 			/*Falta os calculos*/
 		}
 		else {
-			strcpy(instruction, "B");
+			strcat(instruction, "B");
 			strcat(instruction, " #");
 			aux = (intInstruction & 0x7FF)*2 + 4;
 			aux +=  ((intInstruction >> 11) & 0x1);

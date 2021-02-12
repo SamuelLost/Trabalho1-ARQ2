@@ -1,16 +1,18 @@
 #include "DECODER_THUMB.h"
 
-int main(void){
+int main(){
 	FILE *f;
 	FILE *entrada;
-	char instruction[15];    // Vetor que vai armazenar a tradução -> EX: mov r0, #3
+	char instruction[30];    // Vetor que vai armazenar a tradução -> EX: mov r0, #3
 
 	char string_in[4];
 
-	printf("Digite uma sequencia\n");
+	//printf("Digite uma sequencia\n");
 	scanf("%[^\n]", string_in);
-	printMem(f, string_in); //Printa o código da instrução.
-	switch (string_in[0]){
+	//printMem(f, string_in); //Printa o código da instrução.
+	instructionDecoder(string_in, instruction);
+	
+	/*switch (string_in[0]){
 	case '2':
 		strcat(instruction, "mov");
 		if(string_in[1] == '0'){
@@ -51,6 +53,7 @@ int main(void){
 	default:
 		break;
 	}
+	*/
 
 	return 0;
 }

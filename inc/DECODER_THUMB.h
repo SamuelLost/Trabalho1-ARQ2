@@ -7,4 +7,4 @@ void printIntruction(FILE *f,  char* intruction);
 void calc_immed8_mov(char caracter3, char caracter4, char* instruction);
 void printMem(FILE *f,  char* instruction);
 char* lerLinha(FILE *f);
-char* itoa(int value, char * str);
+void instructionDecoder(char* opcode, char* instruction);
