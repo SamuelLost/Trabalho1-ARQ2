@@ -614,7 +614,6 @@ void instructionDecoder(char* opcode){
 	char instruction[30];
 	char buffer[4];
 	int aux;
-    char opcode[4];
 	scanf("%[^\n]", opcode);
 	printMem(saida, opcode); //escreve no arquivo o numero hexa
 	intInstruction = strtol(opcode, &ptr, 16); //string to int
@@ -636,7 +635,21 @@ void instructionDecoder(char* opcode){
 		strcat(instruction, buffer);
         printIntruction(saida, instruction); //escreve no arquivo
 		break;
-	
+	case 0xE:
+		if((intInstruction >> 11) & 0x1) {
+			strcpy(instruction, "BLX");
+			/*Falta os calculos*/
+		}
+		else {
+			strcpy(instruction, "B");
+			strcat(instruction, " #");
+			aux = (intInstruction & 0x7FF)*2 + 4;
+			aux +=  ((intInstruction >> 11) & 0x1);
+			sprintf(buffer, "%d", aux);
+			strcat(instruction, buffer);
+		}
+		printIntruction(saida, instruction);
+		break;
 	default:
 		break;
 	}
