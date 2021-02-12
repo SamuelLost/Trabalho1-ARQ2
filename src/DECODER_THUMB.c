@@ -6,7 +6,7 @@ void printIntruction(FILE *f,  char* instruction){
 	if(f == 0)
 	  printf("Não foi possivel escrever o arquivo!");
 
-	fprintf(f,"%s\n", instruction);
+	fprintf(f,"   %s", instruction);
 	fclose(f);
 }
 
@@ -582,7 +582,7 @@ void printMem(FILE *f,  char* instruction){
   	if(f == 0)
 		printf("Não foi possivel escrever o arquivo!");
 
-  	fprintf(f,"%s   ", instruction);
+  	fprintf(f,"%s", instruction);
   	fclose(f);
 }
 
@@ -613,7 +613,7 @@ void instructionDecoder(char* opcode, char* instruction){
 	long int intInstruction;
 	char buffer[4];
 	int aux;
-	scanf("%[^\n]", opcode);
+	// scanf("%[^\n]", opcode);
 	printMem(saida, opcode); //escreve no arquivo o numero hexa
 	intInstruction = strtol(opcode, &ptr, 16); //string to int
 	switch (intInstruction >> 12 & 0xF){
@@ -627,7 +627,7 @@ void instructionDecoder(char* opcode, char* instruction){
 		strcat(instruction, " r");
 		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
 		sprintf(buffer, "%d", aux);  //int to int
-		strcat(instruction, buffer); 
+		strcat(instruction, buffer);
 		strcat(instruction, ", #");
 		aux = (intInstruction & 0xFF); //imediato
 		sprintf(buffer, "%d", aux);
@@ -644,7 +644,7 @@ void instructionDecoder(char* opcode, char* instruction){
 		strcat(instruction, " r");
 		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
 		sprintf(buffer, "%d", aux);  //int to int
-		strcat(instruction, buffer); 
+		strcat(instruction, buffer);
 		strcat(instruction, ", #");
 		aux = (intInstruction & 0xFF); //imediato
 		sprintf(buffer, "%d", aux);
