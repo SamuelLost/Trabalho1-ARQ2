@@ -1,4 +1,4 @@
-#include "DECODE_ARM.h"
+#include "DECODER_THUMB.h"
 void printIntruction(FILE *f,  char* instruction){
 
 	f = fopen("code.txt","a");

@@ -1,4 +1,4 @@
-#include "DECODE_ARM.h"
+#include "DECODER_THUMB.h"
 
 int main(void){
 	FILE *f;

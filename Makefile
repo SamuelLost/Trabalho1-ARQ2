@@ -1,16 +1,16 @@
 all: exe
 
-exe: main.o DECODE_ARM.o
-	gcc obj/main.o obj/DECODE_ARM.o -o bin/exe
+exe: main.o DECODER_THUMB.o
+	gcc obj/main.o obj/DECODER_THUMB.o -o bin/exe
 
 main.o: src/main.c
 	gcc -c src/main.c -Iinc -o obj/main.o
 
-DECODE_ARM.o: src/DECODE_ARM.c
-	gcc -c src/DECODE_ARM.c -Iinc -o obj/DECODE_ARM.o
+DECODER_THUMB.o: src/DECODER_THUMB.c
+	gcc -c src/DECODER_THUMB.c -Iinc -o obj/DECODER_THUMB.o
 
 run:
 	./bin/exe
 
 clean:
-	rm obj/*.o bin/exe
+	rm obj/*.o bin/exe code.txt
