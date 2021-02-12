@@ -10,7 +10,7 @@ int main(){
 	//printf("Digite uma sequencia\n");
 	scanf("%[^\n]", string_in);
 	//printMem(f, string_in); //Printa o código da instrução.
-	instructionDecoder(string_in, instruction);
+	instructionDecoder(string_in, instruction); //Funcionando
 	
 	/*switch (string_in[0]){
 	case '2':
