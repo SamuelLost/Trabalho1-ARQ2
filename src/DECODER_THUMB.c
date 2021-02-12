@@ -639,7 +639,7 @@ void instructionDecoder(char* opcode, char* instruction){
 			strcpy(instruction, "SUB");
 		}
 		else {
-			strcpy(instruction, "ADD");
+			strcpy(instruction, "ADD"); //
 		}
 		strcat(instruction, " r");
 		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
