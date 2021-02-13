@@ -2,12 +2,12 @@
 
 int main(){
 	// FILE *f;
-	FILE *entrada;
-	char instruction[30];    // Vetor que vai armazenar a tradução -> EX: mov r0, #3
+	//FILE *entrada;
 
-	char string_in[4];
+	//char string_in[4];
 
-  int op = 0;
+	instructionDecoder(opcode, instruction);
+  /*int op = 0;
     do{
         system("clear");
         printf("==============================================\n");
@@ -24,7 +24,7 @@ int main(){
 
         switch(op){
             case 1:
-                entrada = fopen("entrada.txt", "r");
+                /*entrada = fopen("entrada.txt", "r");
 
                 if(entrada == 0)
                   printf("Não foi possivel lê o arquivo!");
@@ -33,12 +33,13 @@ int main(){
                   instructionDecoder(string_in, instruction); //Funcionando
                 }
 
-                fclose(entrada);
-                return 0;
+                fclose(entrada);*/
+				
+                /*return 0;
             break;
             case 2:
                 printf("Digite uma sequencia\n");
-	              scanf("%[^\n]", string_in);
+	            scanf("%[^\n]", string_in);
                 instructionDecoder(string_in, instruction); //Funcionando
                 return 0;
             break;
@@ -47,7 +48,7 @@ int main(){
             break;
         }
 
-    }while(op != 3);
+    }while(op != 3);*/
 
 
 	//printMem(f, string_in); //Printa o código da instrução.

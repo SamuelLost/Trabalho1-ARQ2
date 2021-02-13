@@ -586,115 +586,227 @@ void printMem(FILE *f,  char* instruction){
   	fclose(f);
 }
 
-/*char* lerLinha(FILE *entrada) {
-	char* conteudo[5];
-	char c;
-  	entrada = fopen("entrada.txt", "r");
-  	if(entrada == 0){
-		printf("nao abriu");
-		exit(EXIT_FAILURE);
-	}
-	int i=0;
-	while (!feof(entrada)){
-        fscanf(entrada,"%c",&c);
-		if(c == '\n') break;
-        *conteudo[i] = c;
-		i++;
-    }
-	*conteudo[i+1] = '\0';
-	fclose(entrada);
-	return *conteudo;
-}*/
-
 void instructionDecoder(char* opcode, char* instruction){
 
 	FILE* saida;
 	char* ptr;
 	long int intInstruction;
-	char buffer[4];
 	int aux;
-	// scanf("%[^\n]", opcode);
-	printMem(saida, opcode); //escreve no arquivo o numero hexa
-	intInstruction = strtol(opcode, &ptr, 16); //string to int
-	switch (intInstruction >> 12 & 0xF){
-	case 0x2:
-		if((intInstruction >> 11) & 0x1) {
-			strcpy(instruction, "CMP");
-		}
-		else {
-			strcpy(instruction, "MOV");
-		}
-		strcat(instruction, " r");
-		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
-		sprintf(buffer, "%d", aux);  //int to int
-		strcat(instruction, buffer);
-		strcat(instruction, ", #");
-		aux = (intInstruction & 0xFF); //imediato
-		sprintf(buffer, "%d", aux);
-		strcat(instruction, buffer);
-        printIntruction(saida, instruction); //escreve no arquivo
-		break;
-	case 0x3:
-		if((intInstruction >> 11) & 0x1) {
-			strcpy(instruction, "SUB");
-		}
-		else {
-			strcpy(instruction, "ADD"); //
-		}
-		strcat(instruction, " r");
-		aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
-		sprintf(buffer, "%d", aux);  //int to int
-		strcat(instruction, buffer);
-		strcat(instruction, ", #");
-		aux = (intInstruction & 0xFF); //imediato
-		sprintf(buffer, "%d", aux);
-		strcat(instruction, buffer);
-        printIntruction(saida, instruction); //escreve no arquivo
-		break;
-	case 0xE:
-		if((intInstruction >> 11) & 0x1) {
-			strcpy(instruction, "BLX");
-			/*Falta os calculos*/
-		}
-		else {
-			strcat(instruction, "B");
-			strcat(instruction, " #");
-			aux = (intInstruction & 0x7FF)*2 + 4;
-			aux +=  ((intInstruction >> 11) & 0x1);
+
+	while(scanf("%s[^\n]\n", opcode) != EOF){
+		//printMem(saida, opcode); //escreve no arquivo o numero hexa
+		printf("%s	", opcode);
+		intInstruction = strtol(opcode, &ptr, 16);
+		switch (intInstruction >> 12 & 0xF){
+		case 0x0: //Primeira Linha da Tabela - LSL|LSR
+			if((intInstruction >> 11) & 0x1) {
+				strcpy(instruction, "LSR");
+				strcat(instruction, " r");
+				aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
+				sprintf(buffer, "%d", aux);  //int to int
+				strcat(instruction, buffer);
+				strcat(instruction, ", r");
+				aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, ", #");
+				aux = (intInstruction >> 6) & 0x0F; //descobrindo o segundo registrador
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+			}
+			else {
+				strcpy(instruction, "LSL");
+				strcat(instruction, " r");
+				aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
+				sprintf(buffer, "%d", aux);  //int to int
+				strcat(instruction, buffer);
+				strcat(instruction, ", r");
+				aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, ", #");
+				aux = (intInstruction >> 6) & 0x1F; //descobrindo o immed5
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+			}
+			
+			//printIntruction(saida, instruction); //escreve no arquivo
+			printf("%s", instruction);
+			break;
+		case 0x1: //Segunda, terceira e quarta Linha da Tabela - ASR ou ADD|SUB ou ADD|SUB
+			if((intInstruction >> 11) & 0x1) { //bit 11 = 1
+				if((intInstruction >> 10) & 0x1) { // bit 10 = 1
+					if((intInstruction >> 9) & 0x1) { //bit 9 = 1
+						strcpy(instruction, "SUB");
+						strcat(instruction, " r");
+						aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
+						sprintf(buffer, "%d", aux);  //int to int
+						strcat(instruction, buffer);
+						strcat(instruction, ", r");
+						aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+						strcat(instruction, ", #");
+						aux = (intInstruction >> 6) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+					}
+					else { //bit 9 = 0
+						strcpy(instruction, "ADD");
+						strcat(instruction, " r");
+						aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
+						sprintf(buffer, "%d", aux);  //int to int
+						strcat(instruction, buffer);
+						strcat(instruction, ", r");
+						aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+						strcat(instruction, ", #");
+						aux = (intInstruction >> 6) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+					}
+				}
+				else { //bit 10 = 0
+					if((intInstruction >> 9) & 0x1) { //bit 9 - 1
+						strcpy(instruction, "SUB");
+						strcat(instruction, " r");
+						aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
+						sprintf(buffer, "%d", aux);  //int to int
+						strcat(instruction, buffer);
+						strcat(instruction, ", r");
+						aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+						strcat(instruction, ", r");
+						aux = (intInstruction >> 6) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+					}
+					else { //bit 9 = 0
+						strcpy(instruction, "ADD");
+						strcat(instruction, " r");
+						aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
+						sprintf(buffer, "%d", aux);  //int to int
+						strcat(instruction, buffer);
+						strcat(instruction, ", r");
+						aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+						strcat(instruction, ", r");
+						aux = (intInstruction >> 6) & 0x7; //descobrindo o segundo registrador
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+					}
+				}
+			}
+			else { //bit 11 = 0
+				strcpy(instruction, "ASR");
+				strcat(instruction, " r");
+				aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
+				sprintf(buffer, "%d", aux);  //int to int
+				strcat(instruction, buffer);
+				strcat(instruction, ", r");
+				aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, ", #");
+				aux = (intInstruction >> 6) & 0x1F; //descobrindo o segundo registrador
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+			}
+			
+			//printIntruction(saida, instruction); //escreve no arquivo
+			printf("%s", instruction);
+			break;
+		case 0x2:
+			if((intInstruction >> 11) & 0x1) {
+				strcpy(instruction, "CMP");
+			}
+			else {
+				strcpy(instruction, "MOV");
+			}
+			strcat(instruction, " r");
+			aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
+			sprintf(buffer, "%d", aux);  //int to int
+			strcat(instruction, buffer); 
+			strcat(instruction, ", #");
+			aux = (intInstruction & 0xFF); //imediato
 			sprintf(buffer, "%d", aux);
 			strcat(instruction, buffer);
+			//printIntruction(saida, instruction); //escreve no arquivo
+			printf("%s", instruction);
+			break;
+		case 0x3:
+			if((intInstruction >> 11) & 0x1) {
+				strcpy(instruction, "SUB");
+			}
+			else {
+				strcpy(instruction, "ADD");
+			}
+			strcat(instruction, " r");
+			aux = (intInstruction >> 8) & 0x7;
+			sprintf(buffer, "%d", aux);
+			strcat(instruction, buffer);
+			strcat(instruction, ", #");
+			aux = (intInstruction & 0xFF); //imediato
+			sprintf(buffer, "%d", aux);
+			strcat(instruction, buffer);
+			//printIntruction(saida, instruction);
+			printf("%s", instruction);
+			break;
+		case 0x9:
+			if((intInstruction >> 11) & 0x1) {
+				strcpy(instruction, "LDR");
+				strcat(instruction, ", r");
+				aux = (intInstruction >> 8) & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, ", [sp, #");
+				aux = (intInstruction & 0xFF)*4;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, "]");
+
+			}
+			else {
+				strcpy(instruction, "STR");
+				strcat(instruction, ", r");
+				aux = (intInstruction >> 8) & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, ", [sp, #");
+				aux = (intInstruction & 0xFF)*4;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, "]");
+			}
+			printf("%s", instruction);
+			break;
+		case 0xE:
+			if((intInstruction >> 11) & 0x1) {
+				strcpy(instruction, "BLX");
+				/*Falta os calculos*/
+			}
+			else {
+				strcpy(instruction, "B");
+				strcat(instruction, " #");
+				aux = (intInstruction & 0x7FF)*2 + 4;
+				aux +=  ((intInstruction >> 11) & 0x1);
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+			}
+			printf("%s", instruction);
+			//printIntruction(saida, instruction);
+			break;
+		default:
+			break;
 		}
-		printIntruction(saida, instruction);
-		break;
-	default:
-		break;
+		printf("\n");
 	}
-	printf("%s\n", instruction);
+	//printf("%s\n", instruction);
 	//printf("%x\n", aux);
 	//sprintf(buffer, "%d", aux);
 	//printf("%s", buffer);
 
 }
-
-/*char*  itoa ( int value, char * str ) {
-    char temp;
-    int i =0;
-    while (value > 0) {
-        int digito = value % 10;
-
-        str[i] = digito + '0';
-        value /= 10;
-        i++;
-    }
-   i = 0;
-   int j = strlen(str) - 1;
-
-   while (i < j) {
-      temp = str[i];
-      str[i] = str[j];
-      str[j] = temp;
-      i++;
-      j--;
-   }
-    return str;
-}*/

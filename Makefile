@@ -10,7 +10,7 @@ DECODER_THUMB.o: src/DECODER_THUMB.c
 	gcc -c src/DECODER_THUMB.c -Iinc -o obj/DECODER_THUMB.o
 
 run:
-	./bin/exe
+	./bin/exe < entrada.txt > saida.txt
 
 clean:
-	rm obj/*.o bin/exe code.txt
+	rm obj/*.o bin/exe saida.txt
