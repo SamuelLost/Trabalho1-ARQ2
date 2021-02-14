@@ -1242,6 +1242,81 @@ void instructionDecoder(char* opcode, char* instruction){
           printf("%s", instruction);
       }
     break;
+    case 0x6:
+      if(!((intInstruction >> 11) & 0x1)){ // Instrução com o bit 11 = 0 -> STR | LDR Ld, [Ln, #immed*4]
+        strcpy(instruction, "STR");
+      }else {
+        strcpy(instruction, "LDR");
+      }
+      // Registrador de destino
+        strcat(instruction, " r");
+				aux = intInstruction & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+
+        strcat(instruction, ", [r");
+        aux = (intInstruction >> 3) & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+        // Encontrando immed5
+        strcat(instruction, ", #");
+        aux = ((intInstruction >> 6) & 0x1F) * 4;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+        strcat(instruction, "]");
+
+        printf("%s", instruction);
+    break;
+    case 0x7:
+      if(!((intInstruction >> 11) & 0x1)){ // Instrução com o bit 11 = 0 -> STRB | LDRB Ld, [Ln, #immed*4]
+        strcpy(instruction, "STRB");
+      }else {
+        strcpy(instruction, "LDRB");
+      }
+      // Registrador de destino
+        strcat(instruction, " r");
+				aux = intInstruction & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+
+        strcat(instruction, ", [r");
+        aux = (intInstruction >> 3) & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+        // Encontrando immed5
+        strcat(instruction, ", #");
+        aux = (intInstruction >> 6) & 0x1F;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+        strcat(instruction, "]");
+
+        printf("%s", instruction);
+    break;
+    case 0x8:
+      if(!((intInstruction >> 11) & 0x1)){ // Instrução com o bit 11 = 0 -> STRH | LDRH Ld, [Ln, #immed*2]
+        strcpy(instruction, "STRH");
+      }else {
+        strcpy(instruction, "LDRH");
+      }
+      // Registrador de destino
+        strcat(instruction, " r");
+				aux = intInstruction & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+
+        strcat(instruction, ", [r");
+        aux = (intInstruction >> 3) & 0x7;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+        // Encontrando immed5
+        strcat(instruction, ", #");
+        aux = ((intInstruction >> 6) & 0x1F) * 2;
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+        strcat(instruction, "]");
+
+        printf("%s", instruction);
+    break;
 		case 0x9:
 			if((intInstruction >> 11) & 0x1) {
 				strcpy(instruction, "LDR");
