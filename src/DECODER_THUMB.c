@@ -1345,8 +1345,57 @@ void instructionDecoder(char* opcode, char* instruction){
 			}
 			printf("%s", instruction);
 			break;
+    case 0xA:
+      if(!((intInstruction >> 11) & 0x1)){  // Instrução ADD Ld, pc, #immed*4
+        strcpy(instruction, "ADD");
+        // Registrador de destino
+        strcat(instruction, " r");
+        aux = (intInstruction >> 8 & 0x7); //immed8
+        sprintf(buffer, "%d", aux);
+			  strcat(instruction, buffer);
+        strcat(instruction, ", pc, #");
+
+        // Calculando o immed*4
+        aux = (intInstruction & 0xFF)*4; //immed8
+        sprintf(buffer, "%d", aux);
+			  strcat(instruction, buffer);
+        printf("%s", instruction);
+      }else {
+        strcpy(instruction, "ADD");
+        // Registrador de destino
+        strcat(instruction, " r");
+        aux = (intInstruction >> 8 & 0x7); //immed8
+        sprintf(buffer, "%d", aux);
+			  strcat(instruction, buffer);
+        strcat(instruction, ", sp, #");
+
+        // Calculando o immed*4
+        aux = (intInstruction & 0xFF)*4; //immed8
+        sprintf(buffer, "%d", aux);
+			  strcat(instruction, buffer);
+        printf("%s", instruction);
+      }
+    break;
+    case 0xB:
+      aux = (intInstruction >> 8) & 0xF;
+      sprintf(buffer, "%d", aux);
+      if(!(strcmp(buffer, "0"))){ // Instruções ADD sp, #immed*4 | SUB sp, #immed*4
+        if(!((intInstruction >> 7) & 0x1)){ // ADD sp, #immed*4
+          strcpy(instruction, "ADD");
+        }else { // SUB sp, #immed*4
+          strcpy(instruction, "SUB");
+        }
+        strcat(instruction, " sp, #");
+        aux = (intInstruction & 0x7F)*4; //immed8
+        sprintf(buffer, "%d", aux);
+        strcat(instruction, buffer);
+        printf("%s", instruction);
+      }
+    break;
     case 0xD:   // Instrução SWI
-    if ((intInstruction >> 8) & 0x1 ){
+      aux = ((intInstruction >> 8)  & 0xF);
+      sprintf(buffer, "%d", aux);
+    if (!(strcmp(buffer, "15"))){
       strcpy(instruction, "SWI");
       strcat(instruction, ", #");
 			aux = (intInstruction & 0xFF); //immed8
@@ -1358,6 +1407,7 @@ void instructionDecoder(char* opcode, char* instruction){
       strcat(instruction, ", Indefinido");
       printf("%s", instruction);
     }
+
     break;
 		case 0xE:
 			if((intInstruction >> 11) & 0x1) {
