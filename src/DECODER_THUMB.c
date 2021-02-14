@@ -629,7 +629,7 @@ void instructionDecoder(char* opcode, char* instruction){
 				sprintf(buffer, "%d", aux);
 				strcat(instruction, buffer);
 			}
-			
+
 			//printIntruction(saida, instruction); //escreve no arquivo
 			printf("%s", instruction);
 			break;
@@ -715,7 +715,7 @@ void instructionDecoder(char* opcode, char* instruction){
 				sprintf(buffer, "%d", aux);
 				strcat(instruction, buffer);
 			}
-			
+
 			//printIntruction(saida, instruction); //escreve no arquivo
 			printf("%s", instruction);
 			break;
@@ -729,7 +729,7 @@ void instructionDecoder(char* opcode, char* instruction){
 			strcat(instruction, " r");
 			aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
 			sprintf(buffer, "%d", aux);  //int to int
-			strcat(instruction, buffer); 
+			strcat(instruction, buffer);
 			strcat(instruction, ", #");
 			aux = (intInstruction & 0xFF); //imediato
 			sprintf(buffer, "%d", aux);
@@ -752,9 +752,140 @@ void instructionDecoder(char* opcode, char* instruction){
 			aux = (intInstruction & 0xFF); //imediato
 			sprintf(buffer, "%d", aux);
 			strcat(instruction, buffer);
-			//printIntruction(saida, instruction);
-			printf("%s", instruction);
+			// printIntruction(saida, instruction);
 			break;
+    case 0x4:
+      if(!((intInstruction >> 11) & 0x1)){
+        aux = (intInstruction >> 8) & 0x7;
+        sprintf(buffer, "%d", aux);
+        if(!(strcmp(buffer, "0"))){ // Instruções AND | EOR | LSL | LSR
+          aux = (intInstruction >> 6) & 0x3;
+          sprintf(buffer, "%d", aux);
+          if(!(strcmp(buffer, "0"))){   // Instrução AND
+            	strcpy(instruction, "AND");
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              printf("%s", instruction);
+          }
+          else if(!(strcmp(buffer, "1"))){ // Instrução EOR
+            	strcpy(instruction, "EOR");
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              printf("%s", instruction);
+          }
+          else if(!(strcmp(buffer, "2"))){ // Instrução LSL
+            	strcpy(instruction, "LSL");
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              printf("%s", instruction);
+          }
+          else if(!(strcmp(buffer, "3"))){ // Instrução LSR
+            	strcpy(instruction, "LSR");
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              printf("%s", instruction);
+
+          }
+        }else if(!(strcmp(buffer, "1"))){ // Instruções ASR | ADC | SBC | ROR
+          aux = (intInstruction >> 6) & 0x3;
+          sprintf(buffer, "%d", aux);
+          if(!(strcmp(buffer, "0"))){ // Instrução ASR
+            	strcpy(instruction, "ASR");
+
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              printf("%s", instruction);
+          }else if(!(strcmp(buffer, "1"))){ // Instrução ADC
+            	strcpy(instruction, "ADC");
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              printf("%s", instruction);
+          }else if(!(strcmp(buffer, "2"))){ // Instrução SBC
+            	strcpy(instruction, "SBC");
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              printf("%s", instruction);
+          }else if(!(strcmp(buffer, "3"))){ // Instrução ROR
+            	strcpy(instruction, "ROR");
+              // Registrador de destino
+              strcat(instruction, " r");
+              aux = intInstruction & 0x7; // Bits 2,1,0
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+              // Registrador fonte
+              strcat(instruction, ", r");
+              aux = (intInstruction >> 3) & 0x7; // Bits 5,4,3
+              sprintf(buffer, "%d", aux);
+			        strcat(instruction, buffer);
+
+              printf("%s", instruction);
+          }
+        }
+      }
+    break;
 		case 0x9:
 			if((intInstruction >> 11) & 0x1) {
 				strcpy(instruction, "LDR");
@@ -783,6 +914,20 @@ void instructionDecoder(char* opcode, char* instruction){
 			}
 			printf("%s", instruction);
 			break;
+    case 0xD:   // Instrução SWI
+    if ((intInstruction >> 8) & 0x1 ){
+      strcpy(instruction, "SWI");
+      strcat(instruction, ", #");
+			aux = (intInstruction & 0xFF); //immed8
+      sprintf(buffer, "%d", aux);
+			strcat(instruction, buffer);
+      printf("%s", instruction);
+    }else {
+      strcpy(instruction, "SWI");
+      strcat(instruction, ", Indefinido");
+      printf("%s", instruction);
+    }
+    break;
 		case 0xE:
 			if((intInstruction >> 11) & 0x1) {
 				strcpy(instruction, "BLX");
