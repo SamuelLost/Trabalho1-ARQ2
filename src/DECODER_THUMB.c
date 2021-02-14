@@ -1390,6 +1390,52 @@ void instructionDecoder(char* opcode, char* instruction){
         sprintf(buffer, "%d", aux);
         strcat(instruction, buffer);
         printf("%s", instruction);
+      }else if(!(strcmp(buffer, "2"))){// Instruções SXTH | SXTB | UXTH | UXTB
+        aux = (intInstruction >> 6) & 0x3;
+        sprintf(buffer, "%d", aux);
+         if(!(strcmp(buffer, "0"))){
+           strcpy(instruction, "SXTH");
+         }else if(!(strcmp(buffer, "1"))){
+           strcpy(instruction, "SXTB");
+         }else if(!(strcmp(buffer, "2"))){
+           strcpy(instruction, "UXTH");
+         }else if(!(strcmp(buffer, "3"))){
+           strcpy(instruction, "UXTB");
+         }
+          // Registrador de destino
+          strcat(instruction, " r");
+          aux = (intInstruction & 0x7);
+          sprintf(buffer, "%d", aux);
+          strcat(instruction, buffer);
+          // Registrador fonte
+          strcat(instruction, ", r");
+          aux = (intInstruction >> 3 & 0x7);
+          sprintf(buffer, "%d", aux);
+          strcat(instruction, buffer);
+
+          printf("%s", instruction);
+      }else if(!(strcmp(buffer, "10"))){// Instruções REV | REV16 | REVSH
+        aux = (intInstruction >> 6) & 0x3;
+        sprintf(buffer, "%d", aux);
+         if(!(strcmp(buffer, "0"))){
+           strcpy(instruction, "REV");
+         }else if(!(strcmp(buffer, "1"))){
+           strcpy(instruction, "REV16");
+         }else if(!(strcmp(buffer, "2"))){
+           strcpy(instruction, "REVSH");
+         }
+          // Registrador de destino
+          strcat(instruction, " r");
+          aux = (intInstruction & 0x7);
+          sprintf(buffer, "%d", aux);
+          strcat(instruction, buffer);
+          // Registrador fonte
+          strcat(instruction, ", r");
+          aux = (intInstruction >> 3 & 0x7);
+          sprintf(buffer, "%d", aux);
+          strcat(instruction, buffer);
+
+          printf("%s", instruction);
       }
     break;
     case 0xD:   // Instrução SWI
