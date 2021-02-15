@@ -841,6 +841,24 @@ void instructionDecoder(char* opcode, char* instruction){
                   strcat(instruction, buffer);
 
                   printf("%s", instruction);
+              }else if(!(strcmp(buffer, "6"))){//
+                  aux = (intInstruction >> 4) & 0xF;
+                  sprintf(buffer, "%d", aux);
+                   if(!(strcmp(buffer, "5"))){ // Instruções SETEND LE | SETEND BE
+                        if(!((intInstruction >> 3) & 0x1)){ // Instrução SETEND LE
+                            strcpy(instruction, "SETEND LE");
+                        }else{
+                            strcpy(instruction, "SETEND BE");
+                        }
+                        printf("%s", instruction);
+                   }else{// Instruções CPSIE | CPSID
+                        if(!((intInstruction >> 4) & 0x1)){ // Instrução CPSIE
+                            strcpy(instruction, "CPSIE");
+                        }else{
+                            strcpy(instruction, "CPSID");
+                        }
+                        printf("%s", instruction);
+                   }
               }else if(!(strcmp(buffer, "10"))){// Instruções REV | REV16 | REVSH
                   aux = (intInstruction >> 6) & 0x3;
                   sprintf(buffer, "%d", aux);
@@ -862,6 +880,13 @@ void instructionDecoder(char* opcode, char* instruction){
                   sprintf(buffer, "%d", aux);
                   strcat(instruction, buffer);
 
+                  printf("%s", instruction);
+              }else if(!(strcmp(buffer, "14"))){// Instrução BKPT immed8
+                  strcpy(instruction, "BKPT");
+                  strcat(instruction, ", #");
+                  aux = (intInstruction & 0xFF); //immed8
+                  sprintf(buffer, "%d", aux);
+                  strcat(instruction, buffer);
                   printf("%s", instruction);
               }
           break;
