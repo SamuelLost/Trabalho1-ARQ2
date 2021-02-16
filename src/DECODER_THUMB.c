@@ -24,7 +24,8 @@ void instructionDecoder(char* opcode, char* instruction){
 
 	char* ptr;
 	long int intInstruction;
-	int aux;
+	int aux = 0;
+    int offset = 0;
 
 	while(scanf("%s[^\n]\n", opcode) != EOF){
 		printf("%s	", opcode);
@@ -958,6 +959,24 @@ void instructionDecoder(char* opcode, char* instruction){
 				}
 				printf("%s", instruction);
 				break;
+            case 0xF:
+                if((intInstruction >> 11) & 0x1) {
+					strcpy(instruction, "BL");
+					/*Falta os calculos*/
+                    offset = intInstruction & 0x7FF; // 11bits de offset
+                    aux = (intInstruction >> 12) + 4 + (offset*2);
+                    /*Não tenho 100% de certeza desses calculos*/
+				}
+				else {
+					/*strcpy(instruction, "B");
+					strcat(instruction, " #");
+					aux = (intInstruction & 0x7FF)*2 + 4;
+					aux +=  ((intInstruction >> 11) & 0x1);
+					sprintf(buffer, "%d", aux);
+					strcat(instruction, buffer);*/
+				}
+				printf("%s", instruction);
+                break;
 			default:
 			break;
 
