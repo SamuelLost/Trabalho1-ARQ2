@@ -960,14 +960,17 @@ void instructionDecoder(char* opcode, char* instruction){
 				printf("%s", instruction);
 				break;
             case 0xF:
-                if((intInstruction >> 11) & 0x1) {
-					strcpy(instruction, "BL");
+                if((intInstruction >> 11) & 0x1) { //bit 11 = 1
+					strcpy(instruction, "BL #");
 					/*Falta os calculos*/
                     offset = intInstruction & 0x7FF; // 11bits de offset
                     aux = (intInstruction >> 12) + 4 + (offset*2);
                     /*Não tenho 100% de certeza desses calculos*/
+                    sprintf(buffer, "%d", aux);
+                    strcat(instruction, buffer);
+
 				}
-				else {
+				else { //bit 11 = 0
 					/*strcpy(instruction, "B");
 					strcat(instruction, " #");
 					aux = (intInstruction & 0x7FF)*2 + 4;
