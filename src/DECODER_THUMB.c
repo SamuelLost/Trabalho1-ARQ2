@@ -928,6 +928,22 @@ void instructionDecoder(char* opcode, char* instruction){
 					printf("%s", instruction);
 				}
 				break;
+			case 0xC:
+				if(intInstruction >> 11 & 0x1) { //bit 11 = 1
+					strcpy(instruction, "LDMIA");
+				}
+				else { //bit 11 = 0
+					strcpy(instruction, "STMIA");
+				}
+				strcat(instruction, " r");
+				aux = (intInstruction >> 8) & 0x7; //Ln, r0-r7
+				sprintf(buffer, "%d", aux);
+				strcat(instruction, buffer);
+				strcat(instruction, "!, {");
+				//Calcular o register_list
+				strcat(instruction, "register_list}");
+				printf("%s", instruction);
+				break;
 			case 0xD:   // Instrução SWI
 				aux = ((intInstruction >> 8)  & 0xF);
 				sprintf(buffer, "%d", aux);
@@ -977,6 +993,7 @@ void instructionDecoder(char* opcode, char* instruction){
 					aux +=  ((intInstruction >> 11) & 0x1);
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);*/
+					break; //Tira qnd souber fazer
 				}
 				printf("%s", instruction);
                 break;
