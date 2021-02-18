@@ -945,22 +945,20 @@ void instructionDecoder(char* opcode, char* instruction){
 				printf("%s", instruction);
 				break;
 			case 0xD:
-				if((intInstruction >> 11) & 0xFF) { // Instrução SWCS
+				if(((intInstruction >> 8) & 0xF) == 0xF) { // Instrução SWI
 					strcpy(instruction, "SWI");
 					strcat(instruction, ", #");
 					aux = (intInstruction & 0xFF); //immed8
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
 					printf("%s", instruction);
-					break;
 				}
 				else if((intInstruction >> 8) & 0xE) { //Undefined and expected to remain so
 					//0xE = 0b1110
 					strcpy(instruction, "Indefinido");
 					printf("%s", instruction);
-					break;
 				}
-				else if((intInstruction >> 8) & 0xF < 0xE) { //B<cond>
+				else /*if(((intInstruction >> 8)) < 0xE)*/ { //B<cond>
 					strcpy(instruction, "B");
 					aux2 = (intInstruction >> 8) & 0xF;
 					if(aux2 == 0x0) {
@@ -1005,12 +1003,12 @@ void instructionDecoder(char* opcode, char* instruction){
 					else if(aux2 == 0xD) {
 						strcat(instruction, "LE");
 					}
+					strcat(instruction, " #");
 					offset = intInstruction & 0xFF;
 					aux = (intInstruction >> 12) + 4 + (offset*2);
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
 					printf("%s", instruction);
-					break;
 				}
 				/*aux = ((intInstruction >> 8)  & 0xF);
 				sprintf(buffer, "%d", aux);
