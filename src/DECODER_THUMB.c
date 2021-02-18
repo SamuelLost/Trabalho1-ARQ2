@@ -953,10 +953,11 @@ void instructionDecoder(char* opcode, char* instruction){
 					strcat(instruction, buffer);
 					printf("%s", instruction);
 				}
-				else if((intInstruction >> 8) & 0xE) { //Undefined and expected to remain so
+				else if(((intInstruction >> 8) & 0xE) == 0xE) { //Undefined and expected to remain so
 					//0xE = 0b1110
 					strcpy(instruction, "Indefinido");
 					printf("%s", instruction);
+					break;
 				}
 				else /*if(((intInstruction >> 8)) < 0xE)*/ { //B<cond>
 					strcpy(instruction, "B");
