@@ -873,6 +873,98 @@ void instructionDecoder(char* opcode, char* instruction){
 					strcat(instruction, buffer);
 
 					printf("%s", instruction);
+				}else if(!(strcmp(buffer, "4"))){ // Instrução PUSH, { register-list }
+					strcpy(instruction, "PUSH");
+					strcat(instruction, " { ");
+					// Encontrando o register list
+					aux = (intInstruction) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, "r0");
+					}
+					aux = (intInstruction >> 1) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r1");
+					}
+					aux = (intInstruction >> 2) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r2");
+					}
+					aux = (intInstruction >> 3) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r3");
+					}
+					aux = (intInstruction >> 4) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r4");
+					}
+					aux = (intInstruction >> 5) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r5");
+					}
+					aux = (intInstruction >> 6) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r6");
+					}
+					aux = (intInstruction >> 7) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r7");
+					}
+					strcat(instruction, " }");
+					printf("%s", instruction);
+				}else if(!(strcmp(buffer, "5"))){ // Instrução PUSH {register-list, lr}
+					strcpy(instruction, "PUSH");
+					strcat(instruction, " { ");
+					// Encontrando o register list
+					aux = (intInstruction) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, "r0");
+					}
+					aux = (intInstruction >> 1) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r1");
+					}
+					aux = (intInstruction >> 2) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r2");
+					}
+					aux = (intInstruction >> 3) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r3");
+					}
+					aux = (intInstruction >> 4) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r4");
+					}
+					aux = (intInstruction >> 5) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r5");
+					}
+					aux = (intInstruction >> 6) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r6");
+					}
+					aux = (intInstruction >> 7) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r7");
+					}
+					strcat(instruction, ", lr }");
+					printf("%s", instruction);
 				}
 				else if(!(strcmp(buffer, "6"))){//
 					aux = (intInstruction >> 4) & 0xF;
@@ -917,6 +1009,98 @@ void instructionDecoder(char* opcode, char* instruction){
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
 
+					printf("%s", instruction);
+				}else if(!(strcmp(buffer, "12"))){ // Instrução POP { register-list }
+					strcpy(instruction, "POP");
+					strcat(instruction, " { ");
+					// Encontrando o register list
+					aux = (intInstruction) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, "r0");
+					}
+					aux = (intInstruction >> 1) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r1");
+					}
+					aux = (intInstruction >> 2) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r2");
+					}
+					aux = (intInstruction >> 3) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r3");
+					}
+					aux = (intInstruction >> 4) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r4");
+					}
+					aux = (intInstruction >> 5) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r5");
+					}
+					aux = (intInstruction >> 6) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r6");
+					}
+					aux = (intInstruction >> 7) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r7");
+					}
+					strcat(instruction, " }");
+					printf("%s", instruction);
+				}else if(!(strcmp(buffer, "13"))){ // Instrução PUSH, { register-list }
+					strcpy(instruction, "POP");
+					strcat(instruction, " { ");
+					// Encontrando o register list
+					aux = (intInstruction) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, "r0");
+					}
+					aux = (intInstruction >> 1) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r1");
+					}
+					aux = (intInstruction >> 2) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r2");
+					}
+					aux = (intInstruction >> 3) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r3");
+					}
+					aux = (intInstruction >> 4) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r4");
+					}
+					aux = (intInstruction >> 5) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r5");
+					}
+					aux = (intInstruction >> 6) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r6");
+					}
+					aux = (intInstruction >> 7) & 0x1;
+					sprintf(buffer, "%d", aux);
+					if(!(strcmp(buffer, "1"))){
+						strcat(instruction, ", r7");
+					}
+					strcat(instruction, ", pc }");
 					printf("%s", instruction);
 				}
 				else if(!(strcmp(buffer, "14"))){// Instrução BKPT immed8
