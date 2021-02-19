@@ -1123,9 +1123,49 @@ void instructionDecoder(char* opcode, char* instruction){
 				aux = (intInstruction >> 8) & 0x7; //Ln, r0-r7
 				sprintf(buffer, "%d", aux);
 				strcat(instruction, buffer);
-				strcat(instruction, "!, {");
+				strcat(instruction, "!, { ");
 				//Calcular o register_list
-				strcat(instruction, "register_list}");
+				aux = (intInstruction) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, "r0");
+				}
+				aux = (intInstruction >> 1) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, ", r1");
+				}
+				aux = (intInstruction >> 2) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, ", r2");
+				}
+				aux = (intInstruction >> 3) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, ", r3");
+				}
+				aux = (intInstruction >> 4) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, ", r4");
+				}
+				aux = (intInstruction >> 5) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, ", r5");
+				}
+				aux = (intInstruction >> 6) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, ", r6");
+				}
+				aux = (intInstruction >> 7) & 0x1;
+				sprintf(buffer, "%d", aux);
+				if(!(strcmp(buffer, "1"))){
+					strcat(instruction, ", r7");
+				}
+				strcat(instruction, " }");
 				printf("%s", instruction);
 				break;
 			case 0xD:
