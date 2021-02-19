@@ -875,7 +875,7 @@ void instructionDecoder(char* opcode, char* instruction){
 					printf("%s", instruction);
 				}else if(!(strcmp(buffer, "4"))){ // Instrução PUSH, { register-list }
 					strcpy(instruction, "PUSH");
-					strcat(instruction, " { ");
+					strcat(instruction, " {");
 					// Encontrando o register list
 					aux = (intInstruction) & 0x1;
 					sprintf(buffer, "%d", aux);
@@ -917,11 +917,11 @@ void instructionDecoder(char* opcode, char* instruction){
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, ", r7");
 					}
-					strcat(instruction, " }");
+					strcat(instruction, "}");
 					printf("%s", instruction);
 				}else if(!(strcmp(buffer, "5"))){ // Instrução PUSH {register-list, lr}
 					strcpy(instruction, "PUSH");
-					strcat(instruction, " { ");
+					strcat(instruction, " {");
 					// Encontrando o register list
 					aux = (intInstruction) & 0x1;
 					sprintf(buffer, "%d", aux);
@@ -963,7 +963,7 @@ void instructionDecoder(char* opcode, char* instruction){
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, ", r7");
 					}
-					strcat(instruction, ", lr }");
+					strcat(instruction, ", lr}");
 					printf("%s", instruction);
 				}
 				else if(!(strcmp(buffer, "6"))){//
@@ -1012,7 +1012,7 @@ void instructionDecoder(char* opcode, char* instruction){
 					printf("%s", instruction);
 				}else if(!(strcmp(buffer, "12"))){ // Instrução POP { register-list }
 					strcpy(instruction, "POP");
-					strcat(instruction, " { ");
+					strcat(instruction, " {");
 					// Encontrando o register list
 					aux = (intInstruction) & 0x1;
 					sprintf(buffer, "%d", aux);
@@ -1054,11 +1054,11 @@ void instructionDecoder(char* opcode, char* instruction){
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, ", r7");
 					}
-					strcat(instruction, " }");
+					strcat(instruction, "}");
 					printf("%s", instruction);
 				}else if(!(strcmp(buffer, "13"))){ // Instrução PUSH, { register-list }
 					strcpy(instruction, "POP");
-					strcat(instruction, " { ");
+					strcat(instruction, " {");
 					// Encontrando o register list
 					aux = (intInstruction) & 0x1;
 					sprintf(buffer, "%d", aux);
@@ -1100,7 +1100,7 @@ void instructionDecoder(char* opcode, char* instruction){
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, ", r7");
 					}
-					strcat(instruction, ", pc }");
+					strcat(instruction, ", pc}");
 					printf("%s", instruction);
 				}
 				else if(!(strcmp(buffer, "14"))){// Instrução BKPT immed8
@@ -1123,7 +1123,7 @@ void instructionDecoder(char* opcode, char* instruction){
 				aux = (intInstruction >> 8) & 0x7; //Ln, r0-r7
 				sprintf(buffer, "%d", aux);
 				strcat(instruction, buffer);
-				strcat(instruction, "!, { ");
+				strcat(instruction, "!, {");
 				//Calcular o register_list
 				aux = (intInstruction) & 0x1;
 				sprintf(buffer, "%d", aux);
@@ -1165,7 +1165,7 @@ void instructionDecoder(char* opcode, char* instruction){
 				if(!(strcmp(buffer, "1"))){
 					strcat(instruction, ", r7");
 				}
-				strcat(instruction, " }");
+				strcat(instruction, "}");
 				printf("%s", instruction);
 				break;
 			case 0xD:
