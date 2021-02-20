@@ -1,24 +1,4 @@
 #include "DECODER_THUMB.h"
-void printIntruction(FILE *f,  char* instruction){
-
-	f = fopen("code.txt","a");
-
-	if(f == 0)
-	  printf("Não foi possivel escrever o arquivo!");
-
-	fprintf(f,"   %s", instruction);
-	fclose(f);
-}
-
-void printMem(FILE *f,  char* instruction){
-  	f = fopen("code.txt","a");
-
-  	if(f == 0)
-		printf("Não foi possivel escrever o arquivo!");
-
-  	fprintf(f,"%s", instruction);
-  	fclose(f);
-}
 
 void instructionDecoder(char* opcode, char* instruction){
 
