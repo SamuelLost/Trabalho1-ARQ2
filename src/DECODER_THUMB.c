@@ -4,8 +4,7 @@ void instructionDecoder(char* opcode, char* instruction){
 
 	char* ptr;
 	long int intInstruction;
-	int aux = 0, aux2 = 0;
-    int offset = 0;
+	int aux = 0, aux2 = 0, instruction_adress = 0, offset = 0, poff = 0, bl = 0;
 
 	while(scanf("%s[^\n]\n", opcode) != EOF){
 		printf("%s	", opcode);
@@ -1210,36 +1209,28 @@ void instructionDecoder(char* opcode, char* instruction){
 					}
 					strcat(instruction, " #");
 					offset = intInstruction & 0xFF;
-					aux = (intInstruction >> 12) + 4 + (offset*2);
+					aux = instruction_adress + 4 + (offset*2);
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
 					printf("%s", instruction);
 				}
-				/*aux = ((intInstruction >> 8)  & 0xF);
-				sprintf(buffer, "%d", aux);
-				if (!(strcmp(buffer, "15"))){
-					strcpy(instruction, "SWI");
-					strcat(instruction, ", #");
-					aux = (intInstruction & 0xFF); //immed8
-					sprintf(buffer, "%d", aux);
-					strcat(instruction, buffer);
-					printf("%s", instruction);
-				}
-				else {
-					strcpy(instruction, "Indefinido");
-					printf("%s", instruction);
-				}*/
 				break;
 			case 0xE:
 				if((intInstruction >> 11) & 0x1) {
 					strcpy(instruction, "BLX");
-					/*Falta os calculos*/
+					offset = (intInstruction >> 1) & 0x3FF; //10bits de offset
+					poff = 0;
+					aux = (instruction_adress + 4 + (poff << 12) + (offset*4));
+					aux &= ~3;
+					sprintf(buffer, "%d", aux);
+					strcat(instruction, buffer);
+					bl = 1;
 				}
 				else {
 					strcpy(instruction, "B");
 					strcat(instruction, " #");
-					aux = (intInstruction & 0x7FF)*2 + 4;
-					aux +=  ((intInstruction >> 11) & 0x1);
+					offset = (intInstruction & 0x7FF);
+					aux = instruction_adress + 4 + (offset*2);
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
 				}
@@ -1250,22 +1241,40 @@ void instructionDecoder(char* opcode, char* instruction){
 					strcpy(instruction, "BL #");
 					/*Falta os calculos*/
                     offset = intInstruction & 0x7FF; // 11bits de offset
-                    aux = (intInstruction >> 12) + 4 + (offset*2);
+					//poff = (intInstruction & 0x7FF);
+                    aux = instruction_adress + 4 + (poff << 12) + (offset*2);
                     /*Não tenho 100% de certeza desses calculos*/
                     sprintf(buffer, "%d", aux);
                     strcat(instruction, buffer);
-
+					printf("%s", instruction);
+					bl = 0;
 				}
-				else { //bit 11 = 0
-					/*strcpy(instruction, "B");
-					strcat(instruction, " #");
-					aux = (intInstruction & 0x7FF)*2 + 4;
-					aux +=  ((intInstruction >> 11) & 0x1);
-					sprintf(buffer, "%d", aux);
-					strcat(instruction, buffer);*/
-					break; //Tira qnd souber fazer
+				else {
+					if(bl == 0) {
+						strcpy(instruction, "BL #");
+						/*Falta os calculos*/
+						offset = intInstruction & 0x7FF; // 11bits de offset
+						//poff = (intInstruction & 0x7FF);
+						aux = instruction_adress + 4 + (poff << 12) + (offset*2);
+						/*Não tenho 100% de certeza desses calculos*/
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+						printf("%s", instruction);
+						bl = 0;
+					}
+					else {
+						strcpy(instruction, "BLX #");
+						/*Falta os calculos*/
+						offset = intInstruction & 0x7FF; // 11bits de offset
+						//poff = (intInstruction & 0x7FF);
+						aux = instruction_adress + 4 + (poff << 12) + (offset*2);
+						/*Não tenho 100% de certeza desses calculos*/
+						sprintf(buffer, "%d", aux);
+						strcat(instruction, buffer);
+						printf("%s", instruction);
+						bl = 1;
+					}
 				}
-				printf("%s", instruction);
                 break;
 			default:
 			break;

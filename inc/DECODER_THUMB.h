@@ -1,3 +1,7 @@
+#ifndef _DECODER_THUMB_H
+
+#define _DECODER_THUMB_H
+
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -9,3 +13,4 @@ char instruction[2*MAX]; // Vetor que vai armazenar a tradução -> EX: mov r0, 
 char buffer[2*MAX];
 
 void instructionDecoder(char* opcode, char* instruction);
+#endif
