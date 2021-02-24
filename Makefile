@@ -13,4 +13,4 @@ run:
 	./bin/exe < entrada.in > saida.out
 
 clean:
-	rm obj/*.o bin/exe saida.out
+	rm obj/*.o bin/exe *.out
