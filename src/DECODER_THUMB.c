@@ -4,7 +4,7 @@ void instructionDecoder(char* opcode, char* instruction){
 
 	char* ptr;
 	long int intInstruction;
-	int aux = 0, aux2 = 0, instruction_adress = 0, offset = 0, poff = 0, bl = 0;
+	int aux = 0, aux2 = 0, instruction_adress = 0, offset = 0, poff = 0, bl = 0, has_register = 0;
 
 	while(scanf("%s[^\n]\n", opcode) != EOF){
 		printf("%s	", opcode);
@@ -860,41 +860,84 @@ void instructionDecoder(char* opcode, char* instruction){
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, "r0");
+						has_register = 1;
 					}
 					aux = (intInstruction >> 1) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r1");
+						if(has_register){
+							strcat(instruction, ", r1");
+							has_register = 1;
+						}else{
+							strcat(instruction, "r1");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 2) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r2");
+						if(has_register){
+							strcat(instruction, ", r2");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r2");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 3) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r3");
+						if(has_register){
+							strcat(instruction, ", r3");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r3");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 4) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r4");
+						if(has_register){
+							strcat(instruction, ", r4");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r4");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 5) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r5");
+						if(has_register){
+							strcat(instruction, ", r5");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r5");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 6) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r6");
+						if(has_register){
+							strcat(instruction, ", r6");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r6");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 7) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r7");
+						if(has_register){
+							strcat(instruction, ", r7");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r7");
+							has_register = 1;
+						}
 					}
 					strcat(instruction, "}");
 					printf("%s", instruction);
@@ -906,41 +949,84 @@ void instructionDecoder(char* opcode, char* instruction){
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, "r0");
+						has_register = 1;
 					}
 					aux = (intInstruction >> 1) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r1");
+						if(has_register){
+							strcat(instruction, ", r1");
+							has_register = 1;
+						}else{
+							strcat(instruction, "r1");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 2) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r2");
+						if(has_register){
+							strcat(instruction, ", r2");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r2");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 3) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r3");
+						if(has_register){
+							strcat(instruction, ", r3");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r3");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 4) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r4");
+						if(has_register){
+							strcat(instruction, ", r4");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r4");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 5) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r5");
+						if(has_register){
+							strcat(instruction, ", r5");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r5");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 6) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r6");
+						if(has_register){
+							strcat(instruction, ", r6");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r6");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 7) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r7");
+						if(has_register){
+							strcat(instruction, ", r7");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r7");
+							has_register = 1;
+						}
 					}
 					strcat(instruction, ", lr}");
 					printf("%s", instruction);
@@ -997,41 +1083,84 @@ void instructionDecoder(char* opcode, char* instruction){
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, "r0");
+						has_register = 1;
 					}
 					aux = (intInstruction >> 1) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r1");
+						if(has_register){
+							strcat(instruction, ", r1");
+							has_register = 1;
+						}else{
+							strcat(instruction, "r1");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 2) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r2");
+						if(has_register){
+							strcat(instruction, ", r2");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r2");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 3) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r3");
+						if(has_register){
+							strcat(instruction, ", r3");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r3");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 4) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r4");
+						if(has_register){
+							strcat(instruction, ", r4");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r4");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 5) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r5");
+						if(has_register){
+							strcat(instruction, ", r5");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r5");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 6) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r6");
+						if(has_register){
+							strcat(instruction, ", r6");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r6");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 7) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r7");
+						if(has_register){
+							strcat(instruction, ", r7");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r7");
+							has_register = 1;
+						}
 					}
 					strcat(instruction, "}");
 					printf("%s", instruction);
@@ -1043,41 +1172,84 @@ void instructionDecoder(char* opcode, char* instruction){
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
 						strcat(instruction, "r0");
+						has_register = 1;
 					}
 					aux = (intInstruction >> 1) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r1");
+						if(has_register){
+							strcat(instruction, ", r1");
+							has_register = 1;
+						}else{
+							strcat(instruction, "r1");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 2) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r2");
+						if(has_register){
+							strcat(instruction, ", r2");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r2");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 3) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r3");
+						if(has_register){
+							strcat(instruction, ", r3");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r3");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 4) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r4");
+						if(has_register){
+							strcat(instruction, ", r4");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r4");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 5) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r5");
+						if(has_register){
+							strcat(instruction, ", r5");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r5");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 6) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r6");
+						if(has_register){
+							strcat(instruction, ", r6");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r6");
+							has_register = 1;
+						}
 					}
 					aux = (intInstruction >> 7) & 0x1;
 					sprintf(buffer, "%d", aux);
 					if(!(strcmp(buffer, "1"))){
-						strcat(instruction, ", r7");
+						if(has_register){
+							strcat(instruction, ", r7");
+							has_register = 1;
+						}else {
+							strcat(instruction, "r7");
+							has_register = 1;
+						}
 					}
 					strcat(instruction, ", pc}");
 					printf("%s", instruction);
@@ -1108,41 +1280,84 @@ void instructionDecoder(char* opcode, char* instruction){
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
 					strcat(instruction, "r0");
+					has_register = 1;
 				}
 				aux = (intInstruction >> 1) & 0x1;
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
-					strcat(instruction, ", r1");
+					if(has_register){
+						strcat(instruction, ", r1");
+						has_register = 1;
+					}else{
+						strcat(instruction, "r1");
+						has_register = 1;
+					}
 				}
 				aux = (intInstruction >> 2) & 0x1;
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
-					strcat(instruction, ", r2");
+					if(has_register){
+						strcat(instruction, ", r2");
+						has_register = 1;
+					}else {
+						strcat(instruction, "r2");
+						has_register = 1;
+					}
 				}
 				aux = (intInstruction >> 3) & 0x1;
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
-					strcat(instruction, ", r3");
+					if(has_register){
+						strcat(instruction, ", r3");
+						has_register = 1;
+					}else {
+						strcat(instruction, "r3");
+						has_register = 1;
+					}
 				}
 				aux = (intInstruction >> 4) & 0x1;
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
-					strcat(instruction, ", r4");
+					if(has_register){
+						strcat(instruction, ", r4");
+						has_register = 1;
+					}else {
+						strcat(instruction, "r4");
+						has_register = 1;
+					}
 				}
 				aux = (intInstruction >> 5) & 0x1;
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
-					strcat(instruction, ", r5");
+					if(has_register){
+						strcat(instruction, ", r5");
+						has_register = 1;
+					}else {
+						strcat(instruction, "r5");
+						has_register = 1;
+					}
 				}
 				aux = (intInstruction >> 6) & 0x1;
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
-					strcat(instruction, ", r6");
+					if(has_register){
+						strcat(instruction, ", r6");
+						has_register = 1;
+					}else {
+						strcat(instruction, "r6");
+						has_register = 1;
+					}
 				}
 				aux = (intInstruction >> 7) & 0x1;
 				sprintf(buffer, "%d", aux);
 				if(!(strcmp(buffer, "1"))){
-					strcat(instruction, ", r7");
+					if(has_register){
+						strcat(instruction, ", r7");
+						has_register = 1;
+					}else {
+						strcat(instruction, "r7");
+						has_register = 1;
+					}
 				}
 				strcat(instruction, "}");
 				printf("%s", instruction);

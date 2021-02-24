@@ -4,7 +4,7 @@ e7ff	B #4098
 1840	ADD r0, r0, r1
 1a40	SUB r0, r0, r1
 1a40	SUB r0, r0, r1
-b406	PUSH {, r1, r2}
+b406	PUSH {r1, r2}
 e7fe	B #4096
 bc03	POP {r0, r1}
 be00	BKPT, #0
