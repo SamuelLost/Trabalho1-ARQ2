@@ -1,3 +1,4 @@
+//Biblioteca com a função
 #include "DECODER_THUMB.h"
 
 int main(){

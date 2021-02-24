@@ -1,32 +1,62 @@
 #include "DECODER_THUMB.h"
 
+/*
+ * ===========================================================================================
+ *
+ *       Filename:  DECODER_THUMB.c
+ * 	  Description:  Arquivo que contém a função que faz a decodificação
+ *       Compiler:  gcc
+ *        Authors:  Anderson Silva (475242) e Samuel Henrique (473360)
+ *   Organization:  UFC-Quixadá
+ *
+ * ===========================================================================================
+*/
+
+
+/*
+ * ===========================================================================================
+ *	Função que faz o papel da decodificação
+ *	Recebe as strings globais opcode[2*MAX] e instruction[2*MAX]
+ *	É uma função void, apenas faz modificações na string instruction e imprime ela no arquivo
+ * ===========================================================================================
+*/
 void instructionDecoder(char* opcode, char* instruction){
 
+	//Ponteiro usado na função strtol()
 	char* ptr;
+
+	//Variável para guardar o inteiro retornado por strtol()
 	long int intInstruction;
+
+	//Variáveis "auxiliares" usadas para facilitar alguns calculos
 	int aux = 0, aux2 = 0, instruction_adress = 0, offset = 0, poff = 0, bl = 0, has_register = 0;
 
+	//Ler linha por linha do arquivo até o final dele e armazernar a linha em opcode[2*MAX].
 	while(scanf("%s[^\n]\n", opcode) != EOF){
+
 		printf("%s	", opcode);
+		//Transformar a string hexadecimal em um numero inteiro
 		intInstruction = strtol(opcode, &ptr, 16);
+
+		//Switch condicionado nos 4 bits mais significativos para fazer a filtragem das linhas da tabela
 		switch (intInstruction >> 12 & 0xF){
 			case 0x0: //Primeira Linha da Tabela - LSL|LSR
-				if((intInstruction >> 11) & 0x1) {
+				if((intInstruction >> 11) & 0x1) { //bit 11 = 1
 					strcpy(instruction, "LSR");
 					strcat(instruction, " r");
 					aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
-					sprintf(buffer, "%d", aux);  //int to int
+					sprintf(buffer, "%d", aux);  //int to string
 					strcat(instruction, buffer);
 					strcat(instruction, ", r");
 					aux = (intInstruction >> 3) & 0x7; //descobrindo o segundo registrador
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
 					strcat(instruction, ", #");
-					aux = (intInstruction >> 6) & 0x0F; //descobrindo o segundo registrador
+					aux = (intInstruction >> 6) & 0x1F; //descobrindo o segundo registrador
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
 				}
-				else {
+				else { //bit 11 = 0
 					strcpy(instruction, "LSL");
 					strcat(instruction, " r");
 					aux = (intInstruction & 0x7); //descobrindo qual register r0-r7
@@ -130,29 +160,29 @@ void instructionDecoder(char* opcode, char* instruction){
 
 				printf("%s", instruction);
 				break;
-			case 0x2:
-				if((intInstruction >> 11) & 0x1) {
+			case 0x2: //5ª linha da tabela, MOV | CMP
+				if((intInstruction >> 11) & 0x1) { //bit 11 = 1
 					strcpy(instruction, "CMP");
 				}
-				else {
+				else { //bit 11 = 0
 					strcpy(instruction, "MOV");
 				}
 				strcat(instruction, " r");
-				aux = (intInstruction >> 8) & 0x7; //descobrindo qual register r0-r7
-				sprintf(buffer, "%d", aux);  //int to int
+				aux = (intInstruction >> 8) & 0x7; 	//descobrindo qual register r0-r7
+				sprintf(buffer, "%d", aux);  		//int to string
 				strcat(instruction, buffer);
 				strcat(instruction, ", #");
-				aux = (intInstruction & 0xFF); //imediato
+				aux = (intInstruction & 0xFF); 		//imediato
 				sprintf(buffer, "%d", aux);
 				strcat(instruction, buffer);
 
 				printf("%s", instruction);
 				break;
-			case 0x3:
-				if((intInstruction >> 11) & 0x1) {
+			case 0x3: //6ª linha da tabela, ADD | SUB
+				if((intInstruction >> 11) & 0x1) { //bit 11 = 1
 					strcpy(instruction, "SUB");
 				}
-				else {
+				else { //bit 11 = 0
 					strcpy(instruction, "ADD");
 				}
 				strcat(instruction, " r");
@@ -1377,7 +1407,7 @@ void instructionDecoder(char* opcode, char* instruction){
 					printf("%s", instruction);
 					break;
 				}
-				else /*if(((intInstruction >> 8)) < 0xE)*/ { //B<cond>
+				else { //B<cond>
 					strcpy(instruction, "B");
 					aux2 = (intInstruction >> 8) & 0xF;
 					if(aux2 == 0x0) {
@@ -1448,17 +1478,15 @@ void instructionDecoder(char* opcode, char* instruction){
 					aux = instruction_adress + 4 + (offset*2);
 					sprintf(buffer, "%d", aux);
 					strcat(instruction, buffer);
+					bl = 0;
 				}
 				printf("%s", instruction);
 				break;
             case 0xF:
                 if((intInstruction >> 11) & 0x1) { //bit 11 = 1
 					strcpy(instruction, "BL #");
-					/*Falta os calculos*/
                     offset = intInstruction & 0x7FF; // 11bits de offset
-					//poff = (intInstruction & 0x7FF);
                     aux = instruction_adress + 4 + (poff << 12) + (offset*2);
-                    /*Não tenho 100% de certeza desses calculos*/
                     sprintf(buffer, "%d", aux);
                     strcat(instruction, buffer);
 					printf("%s", instruction);
@@ -1467,11 +1495,8 @@ void instructionDecoder(char* opcode, char* instruction){
 				else {
 					if(bl == 0) {
 						strcpy(instruction, "BL #");
-						/*Falta os calculos*/
 						offset = intInstruction & 0x7FF; // 11bits de offset
-						//poff = (intInstruction & 0x7FF);
 						aux = instruction_adress + 4 + (poff << 12) + (offset*2);
-						/*Não tenho 100% de certeza desses calculos*/
 						sprintf(buffer, "%d", aux);
 						strcat(instruction, buffer);
 						printf("%s", instruction);
@@ -1479,11 +1504,8 @@ void instructionDecoder(char* opcode, char* instruction){
 					}
 					else {
 						strcpy(instruction, "BLX #");
-						/*Falta os calculos*/
 						offset = intInstruction & 0x7FF; // 11bits de offset
-						//poff = (intInstruction & 0x7FF);
 						aux = instruction_adress + 4 + (poff << 12) + (offset*2);
-						/*Não tenho 100% de certeza desses calculos*/
 						sprintf(buffer, "%d", aux);
 						strcat(instruction, buffer);
 						printf("%s", instruction);
