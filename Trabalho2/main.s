@@ -2,59 +2,45 @@
 .func main
 
 main:
+@Open FileOrige
+        mov r7, #5      @open
+        mov r2, #0      @mode
+        mov r1, #0      @flag
+        ldr r0, =nomeArquivoInput
+        swi #0
 
-@Open FileOrigem
+        mov r8, r0      @fd de origem
+
+@Open fileDest
         mov r7, #5
-        ldr r0, =fileOrigem
-        mov r1, #0
-        mov r2, #0
-        swi 0
+        ldr r2, =0x1FF  @mode - como se fosse chmod 777
+        ldr r1, =0x241  @flag
+        ldr r0, =nomeArquivoOutput
+        swi #0
 
-        ldr r1, =fieldIN
-        str r0, [r1]
+        mov r9, r0      @fd de destino
 
-@Open fileDestination
-        mov r7, #5
-        ldr r0, =fileDestination
-        mov r1, #0101
-        mov r2, #384
-        swi 0
+        mov r2, #1
+        ldr r1, =varTemp
 
-        ldr r1, =fieldOUT
-        str r0, [r1]
+readByteFromFileOrigem:
+        mov r7, #3      @read
+        mov r0, r8      @fd de origem
+        swi #0
+        cmp r0, #0      @É o fim do arquivo ?
+        ble fim
+writeByteToFileDesti:
+        mov r7, #4      @write
+        mov r0, r9      @fd de destino
+        swi #0
+        b readByteFromFileOrigem
+fim:
+        mov r7, #1      @exit
+        mov r0, #0      @Return 0
+        swi #0
 
-@read fileOrigem
-        ldr r1, =fieldIN
-        ldr r0, [r1]
-        ldr r1, =Array
-        mov r2, #1      @ number of bytes to read
-        mov r7, #3      @ system call read
-        swi 0           @ read the file to Array
-
-        ldr r1, =size
-        str r0, [r1]
-
-        ldr r0, =InString       @r0 points to InString
-        ldr r1, =OutString      @r1 points to OutString
-
-_readByte:
-        ldrb r2, [r0], #1       @get byte and increment InString
-
-                        @if is eof so goes to write
-
-_storeByte:
-        strb r2, [r1], #1
-        cmp r2, #0
-        bne _readByte
- 
 .data
 .balign 4
-fieldIN:                .skip 4
-fieldOUT:               .skip 4
-Array:                  .skip 50
-size:                   .skip 100
-
-InString:               .skip 150
-OutString:              .skip 150
-fileDestination:        .asciz "file-out.txt"
-fileOrigem:             .asciz "file-in.txt"
+varTemp:                .BYTE 1
+nomeArquivoInput:       .asciz "fileInput.txt"
+nomeArquivoOutput:      .asciz "fileOutput.txt"
