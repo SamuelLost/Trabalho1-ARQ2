@@ -23,15 +23,44 @@ main:
         mov r2, #1
         ldr r1, =varTemp
 
+	mov r5, #0
 readByteFromFileOrigem:
         mov r7, #3      @read
         mov r0, r8      @fd de origem
         swi #0
         cmp r0, #0      @É o fim do arquivo ?
         ble fim
+	mov r1, #0
+	mov r5, #0
+@ALTEREI AQUI
+	mov r3, #31	@count
+	ldr r0, =varTemp	@=ok
+	ldrb r5, [r0]	@tmp
+	mov r1, r5	@num
+	lsr r1, r1, #1
+while:				@AQUI OCORRE A INVERSÃO
+	mov r4, r1
+	cmp r4, #0
+	beq end_while
+	lsl r5, r5, #1
+	and r4, r4, #1
+	orr r5, r5, r4
+	lsr r1, r1, #1
+	sub r3, r3, #1
+
+	b while
+	
+end_while:
+	lsl r5, r5, r3
+	lsr r5, r5, #24
+	ldr r1, =varTemp
+	str r5, [r1]
+@ALTEREI AQUI
+
 writeByteToFileDesti:
         mov r7, #4      @write
         mov r0, r9      @fd de destino
+	ldr r1, =varTemp @ALTEREI AQUI
         swi #0
         b readByteFromFileOrigem
 fim:
@@ -41,6 +70,6 @@ fim:
 
 .data
 .balign 4
-varTemp:                .BYTE 1
+varTemp:                .byte 1
 nomeArquivoInput:       .asciz "fileInput.txt"
 nomeArquivoOutput:      .asciz "fileOutput.txt"
