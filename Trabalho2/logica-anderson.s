@@ -49,7 +49,7 @@ iniciarTransmissao:
         mov r0, r8              @fd de origem
         swi #0
         
-        @passando para mychar
+        @passando para myChar
         ldrb r3, [r1]
         strb r3, [r13]
         add r13, r13, #1
@@ -67,9 +67,8 @@ verificarBitControle:
 realizarRotacao:
         ldr r6, =myChar
         ldr r7, =myCharRot
-        mov r10, #0     @contador 1
-        mov r11, #7     @contador 2
-loopRotacao: 
+        mov r11, #7     @contador
+loopRotacao:
         ldrb r3, [r6, r11]
         strb r3, [r7]
         add r7, r7, #1
@@ -89,21 +88,21 @@ loop:
         @Pegando 1 bit de myChar
         ldrb r13, [r6], #1
         
-        sub r13, r13, #48     @ convertendo '0' or '1' to 0 or 1 to a bit
-        lsl r11, r11, #1      @ byte<<1
-        add r11, r11, r13     @ byte+=bit
+        sub r13, r13, #48      @ convertendo '0' or '1' to 0 or 1 to a bit
+        lsl r11, r11, #1       @ byte<<1
+        add r11, r11, r13      @ byte+=bit
         
-        add r10, r10, #1        @incrementando contador
-        cmp r10, #8            @verifico se cheguei no 8 bit
+        add r10, r10, #1       @incrementando contador
+        cmp r10, #7            @verifico se cheguei no 8 bit
         beq writeByteToFileDesti
         b loop
         
 writeByteToFileDesti:
-        ldr r10, =valueChar
+        ldr r10, =valueChar   @valueChar contém o caracter Ex: 0x61
         strb r11, [r10]
         mov r1, r10
-        mov r7, #4      @write
-        mov r0, r9      @fd de destino
+        mov r7, #4            @write
+        mov r0, r9            @fd de destino
         swi #0
         b readFirstByteFromFileOrigem
 
