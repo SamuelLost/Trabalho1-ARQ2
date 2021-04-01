@@ -84,7 +84,7 @@ loopRotacao:
         add r7, r7, #1          @incremento o ponteito de myBinario
         cmp r11, #0             @cheguei no fim de MyBinario ?
         beq converterToAscii    
-        sub r11, r11, #1        @decremento o ponteiro de myBinarioRot
+        sub r11, r11, #1        @decremento o contador
         b loopRotacao           
         
 @-------------------------------------------------------------------
